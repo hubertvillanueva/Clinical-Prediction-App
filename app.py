@@ -1,19 +1,22 @@
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 import streamlit as st
-from PIL import Image
 import pickle
 
 st.title('PREDICT CLINICAL DEATH EVENT RISK')
 
-try:
-    model = load_model('death_event_model.h5')
-    history = pickle.load(open('death_event_history', 'rb'))
-except Exception as e:
-    st.error(f"Error loading model or history. Details: {e}")
+if not os.path.exists('death_event_model.h5') or not os.path.exists('death_event_history'):
+    with st.spinner('First-time setup: Training the machine learning model on the cloud...'):
+        import model_training
+    st.success('Model trained successfully!')
+
+model = load_model('death_event_model.h5')
+with open('death_event_history', 'rb') as file:
+    history = pickle.load(file)
 
 def get_user_inputs():
     st.sidebar.header("Patient Clinical Factors")
