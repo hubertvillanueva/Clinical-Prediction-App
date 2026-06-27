@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
@@ -23,9 +22,7 @@ model = keras.Sequential([
     keras.layers.Dense(1, activation=tf.nn.sigmoid)
 ])
 
-model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['acc']) 
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc']) 
 
 history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
 
